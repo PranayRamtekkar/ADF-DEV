@@ -10,20 +10,57 @@ variables:
   adfName: pranay-adf-dev
 
 stages:
+
+# --------------------
+# BUILD
+# --------------------
 - stage: Build
+  displayName: Build Artifacts
   jobs:
   - job: BuildJob
     steps:
     - checkout: self
+
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.SourcesDirectory)'
-        artifact: 'drop'
+        artifact: drop
 
+# --------------------
+# DEPLOY DEV
+# --------------------
 - stage: Deploy_DEV
+  displayName: Deploy to DEV
   dependsOn: Build
   jobs:
-  - job: DeployADF
+  - job: DeployResources
+    displayName: Deploy Storage + ADF
     steps:
     - download: current
       artifact: drop
+
+    # -------- STORAGE ACCOUNT --------
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: Deploy Storage Account
+      inputs:
+        deploymentScope: Resource Group
+        azureResourceManagerConnection: MyServiceConnection
+        action: Create Or Update Resource Group
+        resourceGroupName: $(rgName)
+        location: $(location)
+        templateLocation: Linked artifact
+        csmFile: arm/storage/storage-template.json
+        csmParametersFile: arm/storage/storage-parameters-dev.json
+
+    # -------- AZURE DATA FACTORY --------
+    - task: AzureResourceManagerTemplateDeployment@3
+      displayName: Deploy Azure Data Factory
+      inputs:
+        deploymentScope: Resource Group
+        azureResourceManagerConnection: MyServiceConnection
+        action: Create Or Update Resource Group
+        resourceGroupName: $(rgName)
+        location: $(location)
+        templateLocation: Linked artifact
+        csmFile: arm/adf/adf-template.json
+        csmParametersFile: arm/adf/adf-parameters-dev.json
