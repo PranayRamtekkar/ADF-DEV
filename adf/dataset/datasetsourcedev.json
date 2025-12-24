@@ -1,0 +1,17 @@
+{
+  "name": "datasetsourcedev",
+  "properties": {
+    "linkedServiceName": {
+      "referenceName": "linkedservicedev",
+      "type": "LinkedServiceReference"
+    },
+    "type": "Excel",
+    "typeProperties": {
+      "location": {
+        "type": "AzureBlobStorageLocation",
+        "container": "dev",
+        "fileName": "ExcelDev.xlsx"
+      }
+    }
+  }
+}

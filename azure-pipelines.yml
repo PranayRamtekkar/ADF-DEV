@@ -1,0 +1,29 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  location: centralindia
+  rgName: MyRG
+  adfName: pranay-adf-dev
+
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+    - checkout: self
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.SourcesDirectory)'
+        artifact: 'drop'
+
+- stage: Deploy_DEV
+  dependsOn: Build
+  jobs:
+  - job: DeployADF
+    steps:
+    - download: current
+      artifact: drop

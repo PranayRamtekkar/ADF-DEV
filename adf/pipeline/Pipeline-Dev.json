@@ -1,0 +1,15 @@
+{
+  "name": "Pipeline-Dev",
+  "properties": {
+    "activities": [{
+      "name": "CopyExcelDev",
+      "type": "Copy",
+      "inputs": [{ "referenceName": "datasetsourcedev", "type": "DatasetReference" }],
+      "outputs": [{ "referenceName": "datasetsinkdev", "type": "DatasetReference" }],
+      "typeProperties": {
+        "source": { "type": "ExcelSource" },
+        "sink": { "type": "BlobSink" }
+      }
+    }]
+  }
+}

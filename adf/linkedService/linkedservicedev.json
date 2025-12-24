@@ -1,0 +1,12 @@
+{
+  "name": "linkedservicedev",
+  "properties": {
+    "type": "AzureBlobStorage",
+    "typeProperties": {
+      "connectionString": {
+        "type": "SecureString",
+        "value": "DefaultEndpointsProtocol=https;AccountName=azurestorageaccountdev;EndpointSuffix=core.windows.net"
+      }
+    }
+  }
+}

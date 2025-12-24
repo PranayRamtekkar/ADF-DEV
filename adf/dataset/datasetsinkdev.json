@@ -1,0 +1,16 @@
+{
+  "name": "datasetsinkdev",
+  "properties": {
+    "linkedServiceName": {
+      "referenceName": "linkedservicedev",
+      "type": "LinkedServiceReference"
+    },
+    "type": "AzureBlobStorage",
+    "typeProperties": {
+      "location": {
+        "type": "AzureBlobStorageLocation",
+        "container": "dev"
+      }
+    }
+  }
+}
